@@ -44,7 +44,8 @@ public class CommentService {
         } else {
             commentList = commentRepository.findAll();
         }
-        return commentList.stream().map(CommentResponses::new).collect(Collectors.toList());
+        return commentList.stream().map(CommentResponses::new) // convert to response, yani response'a çevir
+                .collect(Collectors.toList()); // convert to list, yani listeye çevir
     }
 
     public void create(CreateCommentRequest createCommentRequest) {
