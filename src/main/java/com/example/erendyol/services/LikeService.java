@@ -4,64 +4,42 @@ import com.example.erendyol.entities.Like;
 import com.example.erendyol.entities.Post;
 import com.example.erendyol.entities.User;
 import com.example.erendyol.repositories.LikeRepository;
-import com.example.erendyol.request.Likes.CreateLikeRequest;
-import com.example.erendyol.request.Likes.UpdateLikeRequest;
+import com.example.erendyol.responses.Like.LikeResponse;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LikeService {
-
     private final LikeRepository likeRepository;
-    private final UserService userService;
     private final PostService postService;
+    private final UserService userService;
 
-    public LikeService(LikeRepository likeRepository, UserService userService, PostService postService) {
+    public LikeService(LikeRepository likeRepository, PostService postService, UserService userService) {
         this.likeRepository = likeRepository;
-        this.userService = userService;
         this.postService = postService;
+        this.userService = userService;
     }
 
-    public Like getById(Long likeId){
-        return likeRepository.getLikeById(likeId).orElse(null);
+    public Like getLikeByUserAndPost(Long userId, Long postId) {
+        User user = userService.getById(userId);
+        Post post = postService.getById(postId);
+        return likeRepository.findByUserAndPost(user, post ).orElseThrow(() -> new RuntimeException("Like not found"));
     }
 
-    public List<Like> getAllLikes(){
-        return likeRepository.findAll();
+    public void like(Long userId, Long postId) {
+        User user = userService.getById(userId);
+        Post post = postService.getById(postId);
+        Like like = new Like();
+        like.setUser(user);
+        like.setPost(post);
+        likeRepository.save(like);
+        postService.increaseLikeCount(post);
     }
 
-    public void liked(CreateLikeRequest createLikeRequest){
-        User user = userService.getById(createLikeRequest.getId());
-        Post post = postService.getById(createLikeRequest.getPostId());
-
-        if(user != null && post != null){
-            Like like = new Like();
-            like.setId(createLikeRequest.getId());
-            like.setIsLiked(createLikeRequest.getIsLiked());
-            like.setUser(user);
-            like.setPost(post);
-
-            likeRepository.save(like);
-        }else {
-            throw new IllegalArgumentException("User or post not found.");
-        }
-    }
-
-    public void unliked(Long likeId, UpdateLikeRequest updateLikeRequest){
-        Like like = likeRepository.getLikeById(likeId).orElse(null);
-
-        if(like != null){
-            like.setIsLiked(updateLikeRequest.getIsLiked());
-
-            likeRepository.save(like);
-        }else {
-            throw new IllegalArgumentException("Like not found.");
-        }
-    }
-
-    public void delete(Long likeId){
-        likeRepository.deleteById(likeId);
+    public void unlike(Long userId, Long postId) {
+        User user = userService.getById(userId);
+        Post post = postService.getById(postId);
+        Like like = likeRepository.findByUserAndPost(user, post).orElseThrow(() -> new RuntimeException("Like not found"));
+        likeRepository.delete(like);
+        postService.decreaseLikeCount(post);
     }
 }

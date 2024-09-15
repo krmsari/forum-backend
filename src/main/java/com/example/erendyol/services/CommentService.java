@@ -7,10 +7,7 @@ import com.example.erendyol.repositories.CommentRepository;
 import com.example.erendyol.request.Comments.CreateCommentRequest;
 import com.example.erendyol.request.Comments.UpdateCommentRequest;
 import com.example.erendyol.responses.Comment.CommentResponses;
-import com.example.erendyol.responses.Post.PostResponses;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +45,7 @@ public class CommentService {
                 .collect(Collectors.toList()); // convert to list, yani listeye çevir
     }
 
-    public void create(CreateCommentRequest createCommentRequest) {
+    public CommentResponses create(CreateCommentRequest createCommentRequest) {
 
         User user = userService.getById(createCommentRequest.getUserId());
         Post post = postService.getById(createCommentRequest.getPostId());
@@ -59,14 +56,14 @@ public class CommentService {
             comment.setUser(user);
             comment.setPost(post);
 
-            commentRepository.save(comment);
+            return  new CommentResponses(commentRepository.save(comment));
         }
         else {
             throw new IllegalArgumentException("User or post not found");
         }
     }
 
-    public void update(Long commentId, UpdateCommentRequest updateCommentRequest) {
+    public CommentResponses update(Long commentId, UpdateCommentRequest updateCommentRequest) {
         Comment comment = commentRepository.findCommentById(commentId).orElse(null);
 
         if (comment != null) {
@@ -74,6 +71,7 @@ public class CommentService {
             comment.setPost(postService.getById(updateCommentRequest.getPostId()));
             comment.setUser(userService.getById(updateCommentRequest.getUserId()));
             commentRepository.save(comment);
+            return new CommentResponses(comment);
         }
         else {
             throw new IllegalArgumentException("Comment not found");

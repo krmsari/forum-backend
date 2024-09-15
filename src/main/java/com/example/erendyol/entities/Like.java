@@ -15,8 +15,6 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean isLiked;
-
     @ManyToOne(fetch = FetchType.EAGER) //=> many posts can be created by one user
     @JoinColumn(name = "post_id",nullable = false) //=> foreign key
     @OnDelete(action = OnDeleteAction.CASCADE) //=> if user is deleted, all posts of the user will be deleted

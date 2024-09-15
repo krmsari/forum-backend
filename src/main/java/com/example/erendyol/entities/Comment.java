@@ -1,7 +1,7 @@
 package com.example.erendyol.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,7 +14,8 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, length = 1000)
+    @Column(length = 1000)
+    @Size(min = 2, max = 1000)
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER) //=> many posts can be created by one user

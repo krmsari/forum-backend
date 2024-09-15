@@ -6,4 +6,6 @@ import lombok.Data;
 public class UpdatePostRequest {
     private String title;
     private String text;
+    private Long likeCount;
+    private Boolean likedCurrentUser;
 }

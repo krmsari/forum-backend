@@ -33,18 +33,17 @@ public class CommentController {
         return commentService.getAllComments();
     }
     @PostMapping
-    public String createComment(@RequestBody CreateCommentRequest createCommentRequest){
-        commentService.create(createCommentRequest);
-        return "Comment created successfully";
+    public CommentResponses createComment(@RequestBody CreateCommentRequest createCommentRequest){
+        return commentService.create(createCommentRequest);
     }
 
-    @PutMapping("/update/{commentId}")
-    public String updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest){
-        commentService.update(commentId, updateCommentRequest);
-        return "Comment updated successfully";
+    @PutMapping("/{commentId}")
+    public CommentResponses updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest){
+
+        return commentService.update(commentId, updateCommentRequest);
     }
 
-    @DeleteMapping("/delete/{commentId}")
+    @DeleteMapping("/{commentId}")
     public String deleteComment(@PathVariable Long commentId){
         commentService.delete(commentId);
         return "Comment deleted successfully";

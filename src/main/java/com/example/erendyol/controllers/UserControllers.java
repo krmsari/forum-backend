@@ -1,6 +1,8 @@
 package com.example.erendyol.controllers;
 
 import com.example.erendyol.entities.User;
+import com.example.erendyol.request.Users.CreateUserRequest;
+import com.example.erendyol.responses.User.UserResponse;
 import com.example.erendyol.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +30,9 @@ public class UserControllers {
     }
 
     @PostMapping
-    public String addUser(@RequestBody User newUser) {
-        userService.add(newUser);
-        return "User added";
+    public UserResponse addUser(@RequestBody CreateUserRequest createUserRequest) {
+
+        return userService.add(createUserRequest);
     }
 
     @PutMapping("/update/{userId}")

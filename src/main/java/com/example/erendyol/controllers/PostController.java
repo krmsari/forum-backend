@@ -3,7 +3,7 @@ package com.example.erendyol.controllers;
 import com.example.erendyol.entities.Post;
 import com.example.erendyol.request.Posts.CreatePostRequest;
 import com.example.erendyol.request.Posts.UpdatePostRequest;
-import com.example.erendyol.responses.Post.PostResponses;
+import com.example.erendyol.responses.Post.PostResponse;
 import com.example.erendyol.services.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,29 +20,30 @@ public class PostController {
         this.postService = postService;
     }
 
+
+
     @GetMapping("/{postId}")
     public Post getPostByPostId(@PathVariable Long postId) {
         return postService.getById(postId);
     }
 
     @GetMapping
-    public List<PostResponses> getAllPosts(@RequestParam Optional<Long> userId) {
-        return postService.getAllPosts(userId);
+    public List<PostResponse> getAllPosts() {
+        return postService.getAllPosts();
     }
 
     @PostMapping
-    public String createPost(@RequestBody CreatePostRequest createPostRequest) {
-        postService.create(createPostRequest);
-        return "Post created successfully";
+    public PostResponse createPost(@RequestBody CreatePostRequest createPostRequest) {
+
+        return postService.create(createPostRequest);
     }
 
-    @PutMapping("/update/{postId}")
-    public String updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest updatePostRequest) {
-        postService.update(postId, updatePostRequest);
-        return "Post updated successfully";
+    @PutMapping("/{postId}")
+    public PostResponse updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest updatePostRequest) {
+        return postService.update(postId, updatePostRequest);
     }
 
-    @DeleteMapping("/delete/{postId}")
+    @DeleteMapping("/{postId}")
     public String deletePost(@PathVariable Long postId) {
         postService.delete(postId);
         return "Post deleted successfully";
