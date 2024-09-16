@@ -15,8 +15,9 @@ public class UserResponse {
         private Long postCount;
         private Long commentCount;
         private Long likeCount;
+        private byte[] image;
 
-        public UserResponse(User user, Long postCount, Long commentCount,Long likeCount) {
+        public UserResponse(User user, Long postCount, Long commentCount,Long likeCount, byte[] image) {
             id = user.getId();
             name = user.getName();
             surname = user.getSurname();
@@ -26,5 +27,6 @@ public class UserResponse {
             this.postCount = postCount;
             this.commentCount = commentCount;
             this.likeCount = likeCount;
+            this.image = image;
         }
 }

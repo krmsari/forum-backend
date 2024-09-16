@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserById(Long id);
 
+
     @Query("SELECT COUNT(p) FROM Post p WHERE p.user.id = :userId")
     Long findPostCountByUserId(@Param("userId") Long userId);
 
@@ -18,5 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT SUM(p.likeCount) FROM Post p WHERE p.user.id = :userId")
     Long findLikeCountByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT i.data FROM Image i WHERE i.user.id = :userId")
+    byte[] findImageByUserId(@Param("userId") Long userId);
 
 }
