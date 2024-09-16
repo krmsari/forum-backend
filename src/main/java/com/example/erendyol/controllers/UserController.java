@@ -1,31 +1,32 @@
 package com.example.erendyol.controllers;
 
 import com.example.erendyol.entities.User;
+import com.example.erendyol.request.Posts.IRequest;
 import com.example.erendyol.request.Users.CreateUserRequest;
+import com.example.erendyol.request.Users.UpdateUserRequest;
 import com.example.erendyol.responses.User.UserResponse;
 import com.example.erendyol.services.UserService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-public class UserControllers {
+public class UserController {
 
     private final UserService userService;
 
-    public UserControllers(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long userId) {
-        return userService.getById(userId);
+    public UserResponse getUser(@PathVariable Long userId) {
+        return userService.getUser(userId);
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAll();
     }
 
@@ -36,9 +37,9 @@ public class UserControllers {
     }
 
     @PutMapping("/update/{userId}")
-    public String updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
-        userService.update(userId, updatedUser);
-        return "User updated";
+    public UserResponse updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest updatedUser) {
+        return userService.update(userId, updatedUser);
+
     }
 
     @DeleteMapping("/delete/{userId}")

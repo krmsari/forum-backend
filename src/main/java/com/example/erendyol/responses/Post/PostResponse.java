@@ -1,10 +1,7 @@
 package com.example.erendyol.responses.Post;
 
-import com.example.erendyol.entities.Like;
 import com.example.erendyol.entities.Post;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class PostResponse {

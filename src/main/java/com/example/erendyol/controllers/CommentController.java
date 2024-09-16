@@ -3,7 +3,7 @@ package com.example.erendyol.controllers;
 import com.example.erendyol.entities.Comment;
 import com.example.erendyol.request.Comments.CreateCommentRequest;
 import com.example.erendyol.request.Comments.UpdateCommentRequest;
-import com.example.erendyol.responses.Comment.CommentResponses;
+import com.example.erendyol.responses.Comment.CommentResponse;
 import com.example.erendyol.services.CommentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ public class CommentController {
         return commentService.getById(commentId);
     }
     @GetMapping
-    public List<CommentResponses> getCommentsByPostId(@RequestParam Optional<Long> postId) {
+    public List<CommentResponse> getCommentsByPostId(@RequestParam Optional<Long> postId) {
         return commentService.getCommentsByPostId(postId);
     }
     @GetMapping("/all")
@@ -33,12 +33,12 @@ public class CommentController {
         return commentService.getAllComments();
     }
     @PostMapping
-    public CommentResponses createComment(@RequestBody CreateCommentRequest createCommentRequest){
+    public CommentResponse createComment(@RequestBody CreateCommentRequest createCommentRequest){
         return commentService.create(createCommentRequest);
     }
 
     @PutMapping("/{commentId}")
-    public CommentResponses updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest){
+    public CommentResponse updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest){
 
         return commentService.update(commentId, updateCommentRequest);
     }

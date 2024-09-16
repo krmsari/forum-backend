@@ -12,13 +12,19 @@ public class UserResponse {
         private String email;
         private String username;
         private String password;
+        private Long postCount;
+        private Long commentCount;
+        private Long likeCount;
 
-        public UserResponse(User user){
+        public UserResponse(User user, Long postCount, Long commentCount,Long likeCount) {
             id = user.getId();
             name = user.getName();
             surname = user.getSurname();
             email = user.getEmail();
             username = user.getUsername();
             password = user.getPassword();
+            this.postCount = postCount;
+            this.commentCount = commentCount;
+            this.likeCount = likeCount;
         }
 }

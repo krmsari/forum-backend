@@ -6,7 +6,7 @@ import com.example.erendyol.entities.User;
 import com.example.erendyol.repositories.CommentRepository;
 import com.example.erendyol.request.Comments.CreateCommentRequest;
 import com.example.erendyol.request.Comments.UpdateCommentRequest;
-import com.example.erendyol.responses.Comment.CommentResponses;
+import com.example.erendyol.responses.Comment.CommentResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,18 +34,18 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    public List<CommentResponses> getCommentsByPostId(Optional<Long> postId) {
+    public List<CommentResponse> getCommentsByPostId(Optional<Long> postId) {
         List<Comment> commentList;
         if (postId.isPresent()) {
             commentList = commentRepository.findCommentsByPostId(postId.get());
         } else {
             commentList = commentRepository.findAll();
         }
-        return commentList.stream().map(CommentResponses::new) // convert to response, yani response'a çevir
+        return commentList.stream().map(CommentResponse::new) // convert to response, yani response'a çevir
                 .collect(Collectors.toList()); // convert to list, yani listeye çevir
     }
 
-    public CommentResponses create(CreateCommentRequest createCommentRequest) {
+    public CommentResponse create(CreateCommentRequest createCommentRequest) {
 
         User user = userService.getById(createCommentRequest.getUserId());
         Post post = postService.getById(createCommentRequest.getPostId());
@@ -56,14 +56,14 @@ public class CommentService {
             comment.setUser(user);
             comment.setPost(post);
 
-            return  new CommentResponses(commentRepository.save(comment));
+            return  new CommentResponse(commentRepository.save(comment));
         }
         else {
             throw new IllegalArgumentException("User or post not found");
         }
     }
 
-    public CommentResponses update(Long commentId, UpdateCommentRequest updateCommentRequest) {
+    public CommentResponse update(Long commentId, UpdateCommentRequest updateCommentRequest) {
         Comment comment = commentRepository.findCommentById(commentId).orElse(null);
 
         if (comment != null) {
@@ -71,7 +71,7 @@ public class CommentService {
             comment.setPost(postService.getById(updateCommentRequest.getPostId()));
             comment.setUser(userService.getById(updateCommentRequest.getUserId()));
             commentRepository.save(comment);
-            return new CommentResponses(comment);
+            return new CommentResponse(comment);
         }
         else {
             throw new IllegalArgumentException("Comment not found");

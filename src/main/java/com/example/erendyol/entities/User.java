@@ -1,11 +1,9 @@
 package com.example.erendyol.entities;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Entity
 @Table(name="users")
@@ -31,4 +29,6 @@ public class User {
     @Column(nullable = false, length = 100)
     @Size(min = 2, max = 70, message = "Password must be between 2 and 70 characters")
     private String password;
+    @Lob
+    private byte[] profilePicture;
 }

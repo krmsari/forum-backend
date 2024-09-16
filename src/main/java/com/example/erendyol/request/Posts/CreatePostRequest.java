@@ -3,7 +3,7 @@ package com.example.erendyol.request.Posts;
 import lombok.Data;
 
 @Data
-public class CreatePostRequest {
+public class CreatePostRequest implements IRequest {
     private Long id;
     private String title;
     private Long likeCount;

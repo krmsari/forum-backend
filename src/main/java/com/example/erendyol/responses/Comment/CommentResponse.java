@@ -4,7 +4,7 @@ import com.example.erendyol.entities.Comment;
 import lombok.Data;
 
 @Data
-public class CommentResponses {
+public class CommentResponse {
 
     private Long id;
     private String text;
@@ -14,7 +14,7 @@ public class CommentResponses {
     private String surname;
     private String username;
 
-    public CommentResponses(Comment comment) {
+    public CommentResponse(Comment comment) {
         this.id = comment.getId();
         this.text = comment.getText();
         this.postId = comment.getPost().getId();
