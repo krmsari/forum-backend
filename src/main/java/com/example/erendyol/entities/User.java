@@ -29,6 +29,4 @@ public class User {
     @Column(nullable = false, length = 100)
     @Size(min = 2, max = 70, message = "Password must be between 2 and 70 characters")
     private String password;
-    @Lob
-    private byte[] profilePicture;
 }

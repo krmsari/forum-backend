@@ -13,7 +13,8 @@ public class PostResponse {
     private String username;
     private Long likeCount;
     private Boolean isLikedCurrentUser;
-    public PostResponse(Post post,Boolean isLikedCurrentUser) {
+    private byte[] image;
+    public PostResponse(Post post,Boolean isLikedCurrentUser,byte[] image) {
         id = post.getId();
         title = post.getTitle();
         text = post.getText();
@@ -21,5 +22,6 @@ public class PostResponse {
         username = post.getUser().getUsername();
         likeCount = post.getLikeCount();
         this.isLikedCurrentUser = isLikedCurrentUser;
+        this.image = image;
     }
 }

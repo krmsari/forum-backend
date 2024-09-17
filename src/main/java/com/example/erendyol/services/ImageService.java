@@ -1,6 +1,7 @@
 package com.example.erendyol.services;
 
 import com.example.erendyol.entities.Image;
+import com.example.erendyol.entities.Post;
 import com.example.erendyol.entities.User;
 import com.example.erendyol.repositories.ImageRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -13,14 +14,20 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
     private final UserService userService;
+    private final PostService postService;
 
-    public ImageService(ImageRepository imageRepository, UserService userService) {
+    public ImageService(ImageRepository imageRepository, UserService userService, PostService postService) {
         this.imageRepository = imageRepository;
         this.userService = userService;
+        this.postService = postService;
     }
 
     public Image getImageByUserId(Long userId) {
         return imageRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Image not found by user id"));
+    }
+
+    public Image getImageByPostId(Long postId) {
+        return imageRepository.findByPostId(postId).orElseThrow(() -> new RuntimeException("Image not found by post id"));
     }
 
     public Image saveImage(MultipartFile file) {
@@ -44,6 +51,16 @@ public class ImageService {
         if (image != null) {
             User user = userService.getById(userId);
             image.setUser(user);
+            return imageRepository.save(image);
+        }
+        return null;
+    }
+
+    public Image savePostImageToPost(MultipartFile file, Long postId) {
+        Image image = saveImage(file);
+        if (image != null) {
+            Post post = postService.getById(postId);
+            image.setPost(post);
             return imageRepository.save(image);
         }
         return null;

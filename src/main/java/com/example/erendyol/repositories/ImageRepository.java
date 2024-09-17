@@ -13,5 +13,6 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
     @Query("SELECT i FROM Image i WHERE i.user.id = :userId")
     Optional<Image> findByUserId(Long userId);
 
+    Optional<Image> findByPostId(Long postId);
     boolean existsByFileName(String fileName);
 }

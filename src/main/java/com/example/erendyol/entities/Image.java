@@ -12,12 +12,9 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
-    @Column(name = "fileName")
     private String fileName;
 
-    @Column(name ="mime_type")
     private String mimeType;
 
     private byte[] data;
@@ -26,5 +23,10 @@ public class Image {
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Post post;
 
 }

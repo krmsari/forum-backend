@@ -41,9 +41,29 @@ public class ImageController {
         }
     }
 
-    @GetMapping
+    @PostMapping("/post")
+    public Image savePostImageToPost(@RequestPart MultipartFile file, @RequestParam Long postId) {
+        try {
+            return imageService.savePostImageToPost(file, postId);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/profile")
     public ResponseEntity<?>  getImageOfUser(@RequestParam Long id) {
         Image image = imageService.getImageByUserId(id);
+        ByteArrayResource body = new ByteArrayResource(image.getData());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, image.getMimeType())
+                .body(body);
+    }
+    //www.localhost:8080/images/post?id=1
+    @GetMapping("/post")
+    public ResponseEntity<?>  getImageOfPost(@RequestParam Long id) {
+        Image image = imageService.getImageByPostId(id);
         ByteArrayResource body = new ByteArrayResource(image.getData());
 
         return ResponseEntity.ok()

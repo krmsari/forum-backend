@@ -37,6 +37,10 @@ public class PostService {
         postRepository.save(post);
     }
 
+    public byte[] imageOfPost(Long postId) {
+        return postRepository.findImageByPostId(postId);
+    }
+
     public Post getById(Long postId) {
         return postRepository.findPostById(postId).orElseThrow( () -> new RuntimeException("Post not found"));
     }
@@ -44,7 +48,7 @@ public class PostService {
     public List<PostResponse> getAllPosts() {
         List<Post> postList;
         postList = postRepository.findAll();
-        return postList.stream().map(post -> new PostResponse(post,postRepository.isLikedByUser(post.getUser().getId(),post.getId()))).collect(Collectors.toList());
+        return postList.stream().map(post -> new PostResponse(post,postRepository.isLikedByUser(post.getUser().getId(),post.getId()),imageOfPost(post.getId()))).collect(Collectors.toList());
     }
 
 
@@ -56,7 +60,7 @@ public class PostService {
         newPost.setLikeCount(0L);
 
         newPost.setUser(user);
-        return new PostResponse(postRepository.save(newPost),false);
+        return new PostResponse(postRepository.save(newPost),false,imageOfPost(newPost.getId()));
     }
 
     public PostResponse update(Long postId, UpdatePostRequest updatePostRequest) {
@@ -67,7 +71,7 @@ public class PostService {
         post.setText(updatePostRequest.getText());
         post.setLikeCount(updatePostRequest.getLikeCount());
         postRepository.save(post);
-        return new PostResponse(post,postRepository.isLikedByUser(post.getUser().getId(),postId));
+        return new PostResponse(post,postRepository.isLikedByUser(post.getUser().getId(),postId),imageOfPost(postId));
     }
 
     public void delete(Long postId) {
