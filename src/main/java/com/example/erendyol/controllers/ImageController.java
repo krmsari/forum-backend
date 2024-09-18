@@ -31,10 +31,10 @@ public class ImageController {
             return null;
         }
     }
-    @PostMapping("/profile")
-    public Image saveProfileImageToUser(@RequestPart MultipartFile file, @RequestParam Long userId) {
+    @PostMapping("/user")
+    public Image saveProfileImageToUser(@RequestPart MultipartFile file, @RequestParam Long id) {
         try {
-            return imageService.saveProfileImageToUser(file, userId);
+            return imageService.saveProfileImageToUser(file, id);
         } catch (Exception e) {
             log.info(e.getMessage());
             return null;
@@ -42,14 +42,16 @@ public class ImageController {
     }
 
     @PostMapping("/post")
-    public Image savePostImageToPost(@RequestPart MultipartFile file, @RequestParam Long postId) {
+    public Image savePostImageToPost(@RequestPart MultipartFile file, @RequestParam Long id) {
         try {
-            return imageService.savePostImageToPost(file, postId);
+            return imageService.savePostImageToPost(file, id);
         } catch (Exception e) {
             log.info(e.getMessage());
             return null;
         }
     }
+    //localhost:8080/images/profile?id=1
+
 
     @GetMapping("/profile")
     public ResponseEntity<?>  getImageOfUser(@RequestParam Long id) {

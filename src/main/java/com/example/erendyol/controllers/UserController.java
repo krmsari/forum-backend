@@ -31,9 +31,9 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponse addUser(@RequestBody CreateUserRequest createUserRequest) {
-
-        return userService.add(createUserRequest);
+    public Long addUser(@RequestBody CreateUserRequest createUserRequest) {
+        UserResponse user = userService.add(createUserRequest);
+        return user.getId();
     }
 
     @PutMapping("/update/{userId}")

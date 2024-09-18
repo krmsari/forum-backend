@@ -21,7 +21,6 @@ public class PostController {
     }
 
 
-
     @GetMapping("/{postId}")
     public Post getPostByPostId(@PathVariable Long postId) {
         return postService.getById(postId);
@@ -33,9 +32,9 @@ public class PostController {
     }
 
     @PostMapping
-    public PostResponse createPost(@RequestBody CreatePostRequest createPostRequest) {
-
-        return postService.create(createPostRequest);
+    public Long createPost(@RequestBody CreatePostRequest createPostRequest) {
+        PostResponse postResponse = postService.create(createPostRequest);
+        return postResponse.getId();
     }
 
     @PutMapping("/{postId}")

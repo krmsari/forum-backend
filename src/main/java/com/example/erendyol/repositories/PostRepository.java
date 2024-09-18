@@ -22,4 +22,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     byte[] findImageByPostId(Long postId);
 
 
+
+
 }
