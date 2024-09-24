@@ -7,6 +7,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class CreateUserRequest extends BaseRequest {
 
-    private Long id;
+    private Long id; 
 
 }
